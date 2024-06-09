@@ -23,9 +23,9 @@ a {
   margin: 0 auto;
 }
 
-.message {
+.readme {
   padding: 30px;
-  font-size: 28px;
+  font-size: 20px;
   font-weight: bold;
 }
 
@@ -35,7 +35,9 @@ ad {
 }
 
 .cover {
-  width: 100px;
+  border: solid 2px #121212;
+  width: 150px;
+  height: 150px;
   /* margin:0 auto; */
 }
 

@@ -6,16 +6,18 @@
   <title>AIスタジオ</title>
   <link href="https://use.fontawesome.com/releases/v6.5.1/css/all.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="stylesheet.css">
+  <!-- Test -->
+  <meta name="description" content="ディスクリプションテスト">
   <!-- Twitter Card data -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:description" content="{{ with .Description }}{{ . }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}" />
+  <meta name="twitter:description" content="{{ .description }}" />
   <meta name="twitter:site" content="@nekonii3info" />
   <meta name="twitter:image" content="{{ page.preview }}" />
   <!-- /Twitter Card data -->
   <!-- Open Graph -->
   <meta property="og:title" content="{{ page.title }}" />
   <meta property="og:type" content="{{ if .IsPage }}article{{ else }}website{{ end }}" />
-  <meta property="og:description" content="{{ with .Description }}{{ . }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ else }}{{ with .Site.Params.description }}{{ . }}{{ end }}{{ end }}{{ end }}" />
+  <meta property="og:description" content="{{ page.description }}" />
   <meta property="og:url" content="{{ .Permalink }}" />
   <meta property="og:image" content="./ogp/template.png" />
   <!-- /Open Graph -->

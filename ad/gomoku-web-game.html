@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>五目並べ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #game-container {
+            text-align: center;
+        }
+        #board {
+            display: inline-grid;
+            grid-template-columns: repeat(15, 30px);
+            grid-gap: 1px;
+            background-color: #8B4513;
+            padding: 10px;
+            border: 2px solid #8B4513;
+        }
+        .cell {
+            width: 30px;
+            height: 30px;
+            background-color: #DEB887;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        #status {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+        #win-message {
+            font-size: 24px;
+            font-weight: bold;
+            color: #4CAF50;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>五目並べ</h1>
+        <div id="board"></div>
+        <div id="status"></div>
+        <div id="win-message"></div>
+    </div>
+
+    <script>
+        const board = document.getElementById('board');
+        const status = document.getElementById('status');
+        const winMessage = document.getElementById('win-message');
+        let currentPlayer = 'X';
+        let gameBoard = Array(15).fill().map(() => Array(15).fill(''));
+        let gameEnded = false;
+
+        function createBoard() {
+            for (let i = 0; i < 15; i++) {
+                for (let j = 0; j < 15; j++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    cell.dataset.row = i;
+                    cell.dataset.col = j;
+                    cell.addEventListener('click', handleCellClick);
+                    board.appendChild(cell);
+                }
+            }
+        }
+
+        function handleCellClick(e) {
+            if (gameEnded) return;
+
+            const row = parseInt(e.target.dataset.row);
+            const col = parseInt(e.target.dataset.col);
+
+            if (gameBoard[row][col] === '') {
+                gameBoard[row][col] = currentPlayer;
+                e.target.textContent = currentPlayer;
+                
+                if (checkWinner(row, col)) {
+                    gameEnded = true;
+                    winMessage.textContent = `プレイヤー${currentPlayer}の勝利です！`;
+                    status.textContent = 'ゲーム終了';
+                } else {
+                    currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+                    status.textContent = `プレイヤー${currentPlayer}の番です`;
+                }
+            }
+        }
+
+        function checkWinner(row, col) {
+            const directions = [[0, 1], [1, 0], [1, 1], [1, -1]];
+            
+            for (const [dx, dy] of directions) {
+                let count = 1;
+                for (let i = 1; i < 5; i++) {
+                    const newRow = row + i * dx;
+                    const newCol = col + i * dy;
+                    if (newRow < 0 || newRow >= 15 || newCol < 0 || newCol >= 15) break;
+                    if (gameBoard[newRow][newCol] !== gameBoard[row][col]) break;
+                    count++;
+                }
+                for (let i = 1; i < 5; i++) {
+                    const newRow = row - i * dx;
+                    const newCol = col - i * dy;
+                    if (newRow < 0 || newRow >= 15 || newCol < 0 || newCol >= 15) break;
+                    if (gameBoard[newRow][newCol] !== gameBoard[row][col]) break;
+                    count++;
+                }
+                if (count >= 5) return true;
+            }
+            return false;
+        }
+
+        createBoard();
+        status.textContent = `プレイヤー${currentPlayer}の番です`;
+    </script>
+</body>
+</html>
